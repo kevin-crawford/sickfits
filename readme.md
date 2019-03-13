@@ -13,13 +13,15 @@
 	<li>CVV: 2222</li>
 </ul>
 
-### How To Install: 
+<!-- ### How To Install: 
 
 <ol>
 	<li>Copy and clone Repo</li>
 	<li>Run "npm install" to install dependencies</li>
+	<li>add variables.env file to store </li>
 	<li>Run "npm run dev" in both the frontend and backend directories to initialize on local host</li>
-</ol>
+	
+</ol> -->
 
 ## Technologies Used:
 
