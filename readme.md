@@ -25,7 +25,7 @@
 
 ## Technologies Used:
 
-###<b>Front-End</b>
+### <b>Front-End</b>
 * React
 * Apollo
 * Next.js
@@ -33,12 +33,20 @@
 * Nprogress for loading states
 * Styled-Components 
 
-###<b>Testing</b>
+### <b>Testing</b>
 * Jest
 * Enzyme
 
-###<b>Back-End</b>
+### <b>Back-End</b>
 * Passport.js 
 * BCrpyt.js 
 * Prisma 
 * GraphQL-Yoga 
+
+### Developer Roadmap
+## This is v1.0 of the app, future enhancements include
+<ul>
+	<li>Enabling password reset</li>
+	<li>Processing transactions with Stripe</li>
+	<li>Owner Account Information Page -- In Progress</li>
+</ul>
