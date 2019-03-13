@@ -1,5 +1,5 @@
-# source: https://us1.prisma.sh/wesbos/siccccccccck-fits/dev
-# timestamp: Tue Sep 11 2018 16:26:22 GMT-0400 (EDT)
+# source: https://sick-fits-prod-97eb615031.herokuapp.com/sickfits-prod/prod
+# timestamp: Tue Mar 12 2019 19:16:57 GMT-0700 (Pacific Daylight Time)
 
 type AggregateCartItem {
   count: Int!
@@ -29,8 +29,8 @@ type BatchPayload {
 type CartItem implements Node {
   id: ID!
   quantity: Int!
-  item(where: ItemWhereInput): Item
-  user(where: UserWhereInput): User!
+  item: Item
+  user: User!
 }
 
 """A connection to a list of items."""
@@ -84,6 +84,79 @@ type CartItemPreviousValues {
   quantity: Int!
 }
 
+input CartItemScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CartItemScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CartItemScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CartItemScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  quantity: Int
+
+  """All values that are not equal to given value."""
+  quantity_not: Int
+
+  """All values that are contained in given list."""
+  quantity_in: [Int!]
+
+  """All values that are not contained in given list."""
+  quantity_not_in: [Int!]
+
+  """All values less than the given value."""
+  quantity_lt: Int
+
+  """All values less than or equal the given value."""
+  quantity_lte: Int
+
+  """All values greater than the given value."""
+  quantity_gt: Int
+
+  """All values greater than or equal the given value."""
+  quantity_gte: Int
+}
+
 type CartItemSubscriptionPayload {
   mutation: MutationType!
   node: CartItem
@@ -129,13 +202,28 @@ input CartItemUpdateInput {
   user: UserUpdateOneRequiredWithoutCartInput
 }
 
+input CartItemUpdateManyDataInput {
+  quantity: Int
+}
+
+input CartItemUpdateManyMutationInput {
+  quantity: Int
+}
+
 input CartItemUpdateManyWithoutUserInput {
   create: [CartItemCreateWithoutUserInput!]
   connect: [CartItemWhereUniqueInput!]
   disconnect: [CartItemWhereUniqueInput!]
   delete: [CartItemWhereUniqueInput!]
   update: [CartItemUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [CartItemUpdateManyWithWhereNestedInput!]
+  deleteMany: [CartItemScalarWhereInput!]
   upsert: [CartItemUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input CartItemUpdateManyWithWhereNestedInput {
+  where: CartItemScalarWhereInput!
+  data: CartItemUpdateManyDataInput!
 }
 
 input CartItemUpdateWithoutUserDataInput {
@@ -242,7 +330,7 @@ type Item implements Node {
   image: String
   largeImage: String
   price: Int!
-  user(where: UserWhereInput): User!
+  user: User!
 }
 
 """A connection to a list of items."""
@@ -361,6 +449,14 @@ input ItemUpdateInput {
   largeImage: String
   price: Int
   user: UserUpdateOneRequiredInput
+}
+
+input ItemUpdateManyMutationInput {
+  title: String
+  description: String
+  image: String
+  largeImage: String
+  price: Int
 }
 
 input ItemUpdateOneInput {
@@ -642,11 +738,11 @@ type Mutation {
   upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
   upsertOrderItem(where: OrderItemWhereUniqueInput!, create: OrderItemCreateInput!, update: OrderItemUpdateInput!): OrderItem!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyCartItems(data: CartItemUpdateInput!, where: CartItemWhereInput): BatchPayload!
-  updateManyOrders(data: OrderUpdateInput!, where: OrderWhereInput): BatchPayload!
-  updateManyItems(data: ItemUpdateInput!, where: ItemWhereInput): BatchPayload!
-  updateManyOrderItems(data: OrderItemUpdateInput!, where: OrderItemWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyCartItems(data: CartItemUpdateManyMutationInput!, where: CartItemWhereInput): BatchPayload!
+  updateManyOrders(data: OrderUpdateManyMutationInput!, where: OrderWhereInput): BatchPayload!
+  updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
+  updateManyOrderItems(data: OrderItemUpdateManyMutationInput!, where: OrderItemWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyCartItems(where: CartItemWhereInput): BatchPayload!
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
@@ -670,7 +766,7 @@ type Order implements Node {
   id: ID!
   items(where: OrderItemWhereInput, orderBy: OrderItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OrderItem!]
   total: Int!
-  user(where: UserWhereInput): User!
+  user: User!
   charge: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -710,7 +806,7 @@ type OrderItem implements Node {
   largeImage: String!
   price: Int!
   quantity: Int!
-  user(where: UserWhereInput): User
+  user: User
 }
 
 """A connection to a list of items."""
@@ -778,6 +874,261 @@ type OrderItemPreviousValues {
   quantity: Int!
 }
 
+input OrderItemScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [OrderItemScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [OrderItemScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [OrderItemScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
+  image: String
+
+  """All values that are not equal to given value."""
+  image_not: String
+
+  """All values that are contained in given list."""
+  image_in: [String!]
+
+  """All values that are not contained in given list."""
+  image_not_in: [String!]
+
+  """All values less than the given value."""
+  image_lt: String
+
+  """All values less than or equal the given value."""
+  image_lte: String
+
+  """All values greater than the given value."""
+  image_gt: String
+
+  """All values greater than or equal the given value."""
+  image_gte: String
+
+  """All values containing the given string."""
+  image_contains: String
+
+  """All values not containing the given string."""
+  image_not_contains: String
+
+  """All values starting with the given string."""
+  image_starts_with: String
+
+  """All values not starting with the given string."""
+  image_not_starts_with: String
+
+  """All values ending with the given string."""
+  image_ends_with: String
+
+  """All values not ending with the given string."""
+  image_not_ends_with: String
+  largeImage: String
+
+  """All values that are not equal to given value."""
+  largeImage_not: String
+
+  """All values that are contained in given list."""
+  largeImage_in: [String!]
+
+  """All values that are not contained in given list."""
+  largeImage_not_in: [String!]
+
+  """All values less than the given value."""
+  largeImage_lt: String
+
+  """All values less than or equal the given value."""
+  largeImage_lte: String
+
+  """All values greater than the given value."""
+  largeImage_gt: String
+
+  """All values greater than or equal the given value."""
+  largeImage_gte: String
+
+  """All values containing the given string."""
+  largeImage_contains: String
+
+  """All values not containing the given string."""
+  largeImage_not_contains: String
+
+  """All values starting with the given string."""
+  largeImage_starts_with: String
+
+  """All values not starting with the given string."""
+  largeImage_not_starts_with: String
+
+  """All values ending with the given string."""
+  largeImage_ends_with: String
+
+  """All values not ending with the given string."""
+  largeImage_not_ends_with: String
+  price: Int
+
+  """All values that are not equal to given value."""
+  price_not: Int
+
+  """All values that are contained in given list."""
+  price_in: [Int!]
+
+  """All values that are not contained in given list."""
+  price_not_in: [Int!]
+
+  """All values less than the given value."""
+  price_lt: Int
+
+  """All values less than or equal the given value."""
+  price_lte: Int
+
+  """All values greater than the given value."""
+  price_gt: Int
+
+  """All values greater than or equal the given value."""
+  price_gte: Int
+  quantity: Int
+
+  """All values that are not equal to given value."""
+  quantity_not: Int
+
+  """All values that are contained in given list."""
+  quantity_in: [Int!]
+
+  """All values that are not contained in given list."""
+  quantity_not_in: [Int!]
+
+  """All values less than the given value."""
+  quantity_lt: Int
+
+  """All values less than or equal the given value."""
+  quantity_lte: Int
+
+  """All values greater than the given value."""
+  quantity_gt: Int
+
+  """All values greater than or equal the given value."""
+  quantity_gte: Int
+}
+
 type OrderItemSubscriptionPayload {
   mutation: MutationType!
   node: OrderItem
@@ -837,13 +1188,38 @@ input OrderItemUpdateInput {
   user: UserUpdateOneInput
 }
 
+input OrderItemUpdateManyDataInput {
+  title: String
+  description: String
+  image: String
+  largeImage: String
+  price: Int
+  quantity: Int
+}
+
 input OrderItemUpdateManyInput {
   create: [OrderItemCreateInput!]
   connect: [OrderItemWhereUniqueInput!]
   disconnect: [OrderItemWhereUniqueInput!]
   delete: [OrderItemWhereUniqueInput!]
   update: [OrderItemUpdateWithWhereUniqueNestedInput!]
+  updateMany: [OrderItemUpdateManyWithWhereNestedInput!]
+  deleteMany: [OrderItemScalarWhereInput!]
   upsert: [OrderItemUpsertWithWhereUniqueNestedInput!]
+}
+
+input OrderItemUpdateManyMutationInput {
+  title: String
+  description: String
+  image: String
+  largeImage: String
+  price: Int
+  quantity: Int
+}
+
+input OrderItemUpdateManyWithWhereNestedInput {
+  where: OrderItemScalarWhereInput!
+  data: OrderItemUpdateManyDataInput!
 }
 
 input OrderItemUpdateWithWhereUniqueNestedInput {
@@ -1184,6 +1560,11 @@ input OrderUpdateInput {
   user: UserUpdateOneRequiredInput
 }
 
+input OrderUpdateManyMutationInput {
+  total: Int
+  charge: String
+}
+
 input OrderWhereInput {
   """Logical AND on all given filters."""
   AND: [OrderWhereInput!]
@@ -1411,7 +1792,7 @@ type User implements Node {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: [Permission!]!
   cart(where: CartItemWhereInput, orderBy: CartItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CartItem!]
 }
@@ -1431,7 +1812,7 @@ input UserCreateInput {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
   cart: CartItemCreateManyWithoutUserInput
 }
@@ -1455,7 +1836,7 @@ input UserCreateWithoutCartInput {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
 }
 
@@ -1493,7 +1874,7 @@ type UserPreviousValues {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: [Permission!]!
 }
 
@@ -1541,7 +1922,7 @@ input UserUpdateDataInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
   cart: CartItemUpdateManyWithoutUserInput
 }
@@ -1551,9 +1932,18 @@ input UserUpdateInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
   cart: CartItemUpdateManyWithoutUserInput
+}
+
+input UserUpdateManyMutationInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: UserUpdatepermissionsInput
 }
 
 input UserUpdateOneInput {
@@ -1588,7 +1978,7 @@ input UserUpdateWithoutCartDataInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
 }
 
@@ -1811,46 +2201,28 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   resetToken_not_ends_with: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
 
   """All values that are not equal to given value."""
-  resetTokenExpiry_not: String
+  resetTokenExpiry_not: Float
 
   """All values that are contained in given list."""
-  resetTokenExpiry_in: [String!]
+  resetTokenExpiry_in: [Float!]
 
   """All values that are not contained in given list."""
-  resetTokenExpiry_not_in: [String!]
+  resetTokenExpiry_not_in: [Float!]
 
   """All values less than the given value."""
-  resetTokenExpiry_lt: String
+  resetTokenExpiry_lt: Float
 
   """All values less than or equal the given value."""
-  resetTokenExpiry_lte: String
+  resetTokenExpiry_lte: Float
 
   """All values greater than the given value."""
-  resetTokenExpiry_gt: String
+  resetTokenExpiry_gt: Float
 
   """All values greater than or equal the given value."""
-  resetTokenExpiry_gte: String
-
-  """All values containing the given string."""
-  resetTokenExpiry_contains: String
-
-  """All values not containing the given string."""
-  resetTokenExpiry_not_contains: String
-
-  """All values starting with the given string."""
-  resetTokenExpiry_starts_with: String
-
-  """All values not starting with the given string."""
-  resetTokenExpiry_not_starts_with: String
-
-  """All values ending with the given string."""
-  resetTokenExpiry_ends_with: String
-
-  """All values not ending with the given string."""
-  resetTokenExpiry_not_ends_with: String
+  resetTokenExpiry_gte: Float
   cart_every: CartItemWhereInput
   cart_some: CartItemWhereInput
   cart_none: CartItemWhereInput
